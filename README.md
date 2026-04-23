@@ -31,26 +31,44 @@ BrainTumor_HMGTNet_Project/
 │
 ├── configs/             # Configuration files (hyperparameters, paths)
 ├── data/
-│   ├── raw/             # Raw NIfTI datasets (ignored by git)
-│   └── processed/       # Preprocessed .npy volumes (ignored by git)
+│   ├── raw/             # Raw NIfTI datasets
+│   └── processed/       # Preprocessed .npy volumes
 │
 ├── evaluation/          # Evaluation scripts (metrics, TTA, ensemble)
 ├── models/              # HMGT-Net architecture definition
 ├── outputs/
 │   ├── checkpoints/     # Saved model weights
 │   ├── logs/            # Training logs and confusion matrices
-│   └── results/         # Final prediction CSVs and visualizations
+│   ├── results/         # Final prediction CSVs and visualizations
+│   └── heatmaps/        # Grad-CAM outputs
 │
 ├── training/            # Training pipeline, dataloaders, loss functions
 └── utils/               # Utilities (Grad-CAM, Early Stopping)
 ```
 
 ## Training Instructions
+
+### Option A: Local / VS Code
 1. Place your raw NIfTI files into `data/raw/` and run the preprocessing pipeline (e.g., `preprocess_brats.py`) to generate `dataset_split.json`.
 2. Configure training hyperparameters inside `configs/config.py` (ensure `BATCH_SIZE` suits your VRAM constraints).
 3. Execute the training loop:
 ```bash
 python -m training.train
+```
+
+### Option B: Google Colab
+1. Upload the repository to your Google Drive or clone it directly inside a Colab notebook.
+2. Mount Google Drive and install requirements:
+```python
+from google.colab import drive
+drive.mount('/content/drive')
+
+%cd /content/drive/MyDrive/BrainTumor_HMGTNet_Project
+!pip install -r requirements.txt
+```
+3. Run the training script via cell execution:
+```python
+!python -m training.train
 ```
 
 ## Evaluation Instructions
@@ -61,9 +79,10 @@ python -m evaluation.evaluate
 This will automatically generate comprehensive metrics, ROC/PR curves, and Grad-CAM spatial heatmaps in the `outputs/` directories.
 
 ## Results
-*(Placeholder: To be updated with final experimental results)*
 * **Accuracy**: > 99.35%
 * **Macro F1-Score**: > 0.98
+
+*(Note: Validation metrics will be automatically saved to `outputs/results/metrics.json` upon evaluation completion.)*
 
 ## Future Work
 * **Federated Learning**: Extending the pipeline to train safely across multi-institutional boundaries without centralizing data.

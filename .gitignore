@@ -1,31 +1,35 @@
-# Python
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
 *.pyc
 *.pyo
 *.pyd
-
-# Environments
 .env
 .venv
-env/
 venv/
-ENV/
-env.bak/
-venv.bak/
+env/
 
-# Project specifics
+# Ignore large data
 data/raw/*
 data/processed/*
+
+# Keep folder structure
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Ignore outputs
 outputs/checkpoints/*
 outputs/logs/*
 outputs/results/*
+outputs/heatmaps/*
+
+# Keep structure
+!outputs/checkpoints/.gitkeep
+!outputs/logs/.gitkeep
+!outputs/results/.gitkeep
+!outputs/heatmaps/.gitkeep
+
 *.pth
 *.pt
+*.log
 *.csv
 *.png
-*.jpg
 *.npy
-*.log
