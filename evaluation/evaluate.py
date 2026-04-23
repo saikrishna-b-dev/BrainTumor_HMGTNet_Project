@@ -65,14 +65,24 @@ def main():
         models.append(m)
     
     # 3. Data Loader
-    # Use dataset_split.json or dataset_split_test.json
     split_file = Config.SPLIT_JSON
     try:
+        if not os.path.exists(split_file):
+            raise FileNotFoundError()
         test_loader = get_dataloader(split_file, batch_size=Config.BATCH_SIZE, mode="test")
     except Exception:
         print("Test split not found in main split file, trying dataset_split_test.json...")
         test_split_path = os.path.join(Config.DATA_ROOT, "dataset_split_test.json")
-        test_loader = get_dataloader(test_split_path, batch_size=Config.BATCH_SIZE, mode="test")
+        if not os.path.exists(test_split_path):
+            print(f"\n[ERROR] Test dataset split not found at: {test_split_path}")
+            print("Please ensure you have generated a test split before running evaluation.")
+            sys.exit(1)
+            
+        try:
+            test_loader = get_dataloader(test_split_path, batch_size=Config.BATCH_SIZE, mode="test")
+        except Exception as e:
+            print(f"\n[ERROR] Failed to load test dataloader: {e}")
+            sys.exit(1)
     
     print(f"Testing on {len(test_loader.dataset)} samples with Ensemble size {len(models)} and TTA.")
     

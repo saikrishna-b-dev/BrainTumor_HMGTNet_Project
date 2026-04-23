@@ -1,0 +1,17 @@
+torch
+torchvision
+torchaudio
+numpy
+pandas
+matplotlib
+scikit-learn
+opencv-python
+tqdm
+nibabel
+SimpleITK
+monai
+timm
+transformers
+torch-geometric
+grad-cam
+einops

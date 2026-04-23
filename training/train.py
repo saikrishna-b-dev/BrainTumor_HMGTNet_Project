@@ -151,7 +151,9 @@ def main():
     # 1. Datasets & Dataloaders
     split_file = Config.SPLIT_JSON
     if not os.path.exists(split_file):
-        raise FileNotFoundError(f"Split file {split_file} not found. Run preprocessing.")
+        print(f"\n[ERROR] Dataset split file not found at: {split_file}")
+        print("Please ensure you have placed the raw NIfTI files in 'data/raw/' and ran the preprocessing script.")
+        sys.exit(1)
 
     train_loader = get_dataloader(split_file, batch_size=Config.BATCH_SIZE, num_workers=Config.NUM_WORKERS, mode="train")
     val_loader = get_dataloader(split_file, batch_size=Config.BATCH_SIZE, num_workers=Config.NUM_WORKERS, mode="val")

@@ -47,3 +47,26 @@ class Config:
     # Hardware
     DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
     NUM_WORKERS = 4
+
+    @classmethod
+    def validate(cls):
+        """Validate critical configuration settings."""
+        if not hasattr(cls, 'DATA_ROOT') or not cls.DATA_ROOT:
+            raise ValueError("Config validation failed: DATA_ROOT is missing or empty.")
+            
+        if not isinstance(cls.BATCH_SIZE, int) or cls.BATCH_SIZE <= 0:
+            raise ValueError(f"Config validation failed: BATCH_SIZE must be a positive integer, got {cls.BATCH_SIZE}.")
+            
+        if not isinstance(cls.LR, float) or cls.LR <= 0:
+            raise ValueError(f"Config validation failed: LR must be a positive float, got {cls.LR}.")
+            
+        if not isinstance(cls.EPOCHS, int) or cls.EPOCHS <= 0:
+            raise ValueError(f"Config validation failed: EPOCHS must be a positive integer, got {cls.EPOCHS}.")
+            
+        if cls.DEVICE not in ["cpu", "cuda", "mps"]:
+            raise ValueError(f"Config validation failed: Invalid DEVICE '{cls.DEVICE}'.")
+            
+        print("Config validation passed successfully.")
+
+# Run validation on import
+Config.validate()
